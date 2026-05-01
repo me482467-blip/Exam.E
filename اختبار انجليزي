@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business English Exam</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #d4af37; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding: 10px; line-height: 1.6; }
+        .container { max-width: 800px; background: white; margin: 20px auto; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { color: var(--primary); text-align: center; border-bottom: 3px solid var(--accent); padding-bottom: 10px; margin-bottom: 30px; }
+        .question-box { margin-bottom: 25px; padding: 15px; border-right: 5px solid var(--primary); background: #f9f9f9; border-radius: 0 8px 8px 0; }
+        .question-text { font-weight: bold; margin-bottom: 10px; color: #34495e; }
+        .options label { display: block; margin: 8px 0; cursor: pointer; padding: 8px; border-radius: 5px; transition: 0.3s; }
+        .options label:hover { background: #eef2f3; }
+        input[type="radio"] { margin-left: 10px; cursor: pointer; }
+        #name-section { text-align: center; margin-bottom: 40px; }
+        input[type="text"] { padding: 12px; width: 85%; font-size: 16px; border-radius: 8px; border: 2px solid #ddd; outline: none; transition: 0.3s; }
+        input[type="text"]:focus { border-color: var(--primary); }
+        .btn-submit { background: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 18px; width: 100%; margin-top: 20px; font-weight: bold; }
+        .btn-submit:hover { background: #1a252f; }
+        
+        /* تصميم الشهادة */
+        #certificate-area { display: none; text-align: center; border: 15px double var(--accent); padding: 40px; background: #fff; position: relative; margin-top: 20px; }
+        .cert-header { font-size: 24px; color: #7f8c8d; margin-bottom: 5px; }
+        .cert-title { font-size: 45px; color: var(--primary); margin: 15px 0; font-family: 'Times New Roman', serif; }
+        .student-name { font-size: 35px; color: var(--accent); font-weight: bold; text-decoration: underline; margin: 20px 0; }
+        .cert-body { font-size: 20px; color: #34495e; }
+        .score-box { font-size: 28px; color: #27ae60; font-weight: bold; margin: 15px 0; }
+        .footer-sign { margin-top: 50px; display: flex; justify-content: space-between; font-weight: bold; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="quiz-app">
+    <h1>Business English Exam </h1>
+    
+    <div id="name-section">
+        <p>مرحباً بك.. يرجى إدخال اسمك بالكامل للحصول على الشهادة فور الانتهاء:</p>
+        <input type="text" id="userName" placeholder="اكتب اسمك الرباعي هنا..." required>
+    </div>
+
+    <div id="questions-container">
+        </div>
+
+    <button class="btn-submit" onclick="showResult()">إنهاء الاختبار واستلام الشهادة</button>
+</div>
+
+<div id="certificate-area" class="container">
+    <div class="cert-header">نظام التعليم الذكي</div>
+    <div class="cert-title">شهادة تقدير</div>
+    <p class="cert-body">نشهد أن الطالب / الطالبة:</p>
+    <div class="student-name" id="display-name"></div>
+    <p class="cert-body">قد اجتاز بنجاح الاختبار الشامل لمادة "English Business" بنسبة نجاح بلغت:</p>
+    <div class="score-box" id="display-score"></div>
+    <p class="cert-body"> تم منح هذه الشهادة تقديراً لجهوده وتفوقه وكونه أشطر كتكوت.</p>
+    
+    <div class="footer-sign">
+      
+        <span>توقيع:malak ahmed </span>
+    </div>
+    <button class="btn-submit" onclick="window.print()" style="background: #7f8c8d; margin-top: 30px;">طباعة أو حفظ الشهادة</button>
+</div>
+
+<script>
+const quizData = [
+    // 20 سؤال صح وخطأ
+    { q: "المذكرة (Memo) تُستخدم كوسيلة للتواصل الجماعي داخل المنظمة.", a: "صح" },
+    { q: "الموضوعية (Objectivity) ليست عنصراً أساسياً عند كتابة التقارير الإدارية.", a: "خطأ" },
+    { q: "التقارير التحليلية تُستخدم لاتخاذ قرارات مدروسة.", a: "صح" },
+    { q: "تقارير الأبحاث تُستخدم لتحليل البيانات دون أي نتائج محتملة.", a: "خطأ" },
+    { q: "يجب استخدام عناوين طويلة ومعقدة للتقارير الإدارية.", a: "خطأ" },
+    { q: "جدول المحتويات يُستخدم فقط إذا كان التقرير طويلاً.", a: "صح" },
+    { q: "المستخلص (Abstract) يجب أن يغني عن قراءة التقرير بالكامل لمن يقرأه.", a: "صح" },
+    { q: "توصيات التقرير يتم استخلاصها من النتائج السابقة.", a: "صح" },
+    { q: "الخاتمة القوية يجب أن تحتوي على آراء منحازة.", a: "خطأ" },
+    { q: "البريد الإلكتروني أكثر ملاءمة لأنه لا يتطلب تواجد المستلم.", a: "صح" },
+    { q: "نقص الاحترافية هو أكبر مشكلة في كتابة المذكرات.", a: "صح" },
+    { q: "من غير الضروري تقسيم العملاء لبناء الولاء.", a: "خطأ" },
+    { q: "أبحاث التسويق تساعد في بناء استراتيجيات تسويقية.", a: "صح" },
+    { q: "العصف الذهني يقلل من مهارات حل المشكلات.", a: "خطأ" },
+    { q: "الترويج التسويقي هو وسيلة اتصال بين البائع والمشتري.", a: "صح" },
+    { q: "العلاقات العامة تؤثر على سلوك العميل.", a: "صح" },
+    { q: "التركيز على النمو الداخلي ليس من استراتيجيات المبيعات.", a: "خطأ" },
+    { q: "المراقبة الاجتماعية خطوة أساسية في المبيعات عبر الإنترنت.", a: "صح" },
+    { q: "الذاتية هي عنصر أساسي في كتابة التقارير.", a: "خطأ" },
+    { q: "التسويق يستهدف الموردين والعملاء المحتملين أيضاً.", a: "صح" },
+
+    // 20 سؤال اختياري
+    { q: "ما هو الملخص التنفيذي؟", options: ["القسم المفصل للتقرير", "نسخة مختصرة ومركزة للتقرير", "قائمة المراجع"], a: "نسخة مختصرة ومركزة للتقرير" },
+    { q: "أي من هذه ليس من الـ 7 C's؟", options: ["الوضوح", "الإيجاز", "الخاتمة"], a: "الخاتمة" },
+    { q: "المذكرة (Memo) هي وسيلة للمراسلات:", options: ["الخارجية", "الداخلية", "الشخصية"], a: "الداخلية" },
+    { q: "الـ SEO هو جزء من استراتيجية التسويق:", options: ["عبر الإنترنت", "التقليدي", "الميداني"], a: "عبر الإنترنت" },
+    { q: "توفير عربة تسوق سهلة يخص:", options: ["المذكرات", "المبيعات عبر الإنترنت", "العلاقات العامة"], a: "المبيعات عبر الإنترنت" },
+    { q: "العصف الذهني هو طريقة:", options: ["فردية", "جماعية لحل المشكلات", "مالية"], a: "جماعية لحل المشكلات" },
+    { q: "يقنع البائع جمهوره من خلال:", options: ["الترويج التسويقي", "المحاسبة", "المخازن"], a: "الترويج التسويقي" },
+    { q: "أي من هذه ليس من المكونات الأساسية للرسالة؟", options: ["التاريخ", "التوقيع", "سؤال مقنع"], a: "سؤال مقنع" },
+    { q: "المكون الأهم في استراتيجية المبيعات هو:", options: ["العملاء", "الموردين", "المنافسين
